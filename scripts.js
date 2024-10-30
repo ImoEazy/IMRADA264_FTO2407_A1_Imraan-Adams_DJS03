@@ -5,6 +5,17 @@ let matches = books
 
 const starting = document.createDocumentFragment()
 
+//Implement Abstraction. Define Objects: Create JavaScript classes or constructor functions for key elements like Book, Author, and Genre.
+class Book {
+    constructor(title, author, genre, description) {
+        this.title = title;
+        this.author = genre;
+        this.description = description;
+    }
+}
+///////
+
+
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
