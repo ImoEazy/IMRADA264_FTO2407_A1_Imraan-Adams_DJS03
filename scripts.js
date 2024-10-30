@@ -9,11 +9,24 @@ const starting = document.createDocumentFragment()
 class Book {
     constructor(title, author, genre, description) {
         this.title = title;
-        this.author = genre;
+        this.author = author;
+        this.genre = genre;
         this.description = description;
     }
 }
-///////
+
+class Author {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+class Genre {
+    constructor(name) {
+        this.name = name;
+    }
+}
+////////////////////////////
 
 
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
