@@ -5,30 +5,6 @@ let matches = books
 
 const starting = document.createDocumentFragment()
 
-//Implement Abstraction. Define Objects: Create JavaScript classes or constructor functions for key elements like Book, Author, and Genre.
-class Book {
-    constructor(title, author, genre, description) {
-        this.title = title;
-        this.author = author;
-        this.genre = genre;
-        this.description = description;
-    }
-}
-
-class Author {
-    constructor(name) {
-        this.name = name;
-    }
-}
-
-class Genre {
-    constructor(name) {
-        this.name = name;
-    }
-}
-////////////////////////////
-
-
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
@@ -81,15 +57,45 @@ for (const [id, name] of Object.entries(authors)) {
 
 document.querySelector('[data-search-authors]').appendChild(authorsHtml)
 
+// Theme management function
+const setTheme = (theme) => {
+    const themeSettings = theme === 'night' ? { dark: '255, 255, 255', light: '10, 10, 20' } : { dark: '10, 10, 20', light: '255, 255, 255' };
+    document.documentElement.style.setProperty('--color-dark', themeSettings.dark);
+    document.documentElement.style.setProperty('--color-light', themeSettings.light);
+};
+
+// Initialize theme based on user preference
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.querySelector('[data-settings-theme]').value = 'night'
-    document.documentElement.style.setProperty('--color-dark', '255, 255, 255');
-    document.documentElement.style.setProperty('--color-light', '10, 10, 20');
+    setTheme('night');
+    document.querySelector('[data-settings-theme]').value = 'night';
 } else {
-    document.querySelector('[data-settings-theme]').value = 'day'
-    document.documentElement.style.setProperty('--color-dark', '10, 10, 20');
-    document.documentElement.style.setProperty('--color-light', '255, 255, 255');
+    setTheme('day');
+    document.querySelector('[data-settings-theme]').value = 'day';
 }
+
+// Event Listeners
+document.querySelector('[data-settings-form]').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    setTheme(formData.get('theme'));
+    document.querySelector('[data-settings-overlay]').open = false;
+});
+
+
+
+
+
+
+
+//if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    //document.querySelector('[data-settings-theme]').value = 'night'
+    //document.documentElement.style.setProperty('--color-dark', '255, 255, 255');
+    //document.documentElement.style.setProperty('--color-light', '10, 10, 20');
+//} else {
+    //document.querySelector('[data-settings-theme]').value = 'day'
+    //document.documentElement.style.setProperty('--color-dark', '10, 10, 20');
+    //document.documentElement.style.setProperty('--color-light', '255, 255, 255');
+//}
 
 document.querySelector('[data-list-button]').innerText = `Show more (${books.length - BOOKS_PER_PAGE})`
 document.querySelector('[data-list-button]').disabled = (matches.length - (page * BOOKS_PER_PAGE)) > 0
@@ -125,15 +131,17 @@ document.querySelector('[data-settings-form]').addEventListener('submit', (event
     const formData = new FormData(event.target)
     const { theme } = Object.fromEntries(formData)
 
-    if (theme === 'night') {
-        document.documentElement.style.setProperty('--color-dark', '255, 255, 255');
-        document.documentElement.style.setProperty('--color-light', '10, 10, 20');
-    } else {
-        document.documentElement.style.setProperty('--color-dark', '10, 10, 20');
-        document.documentElement.style.setProperty('--color-light', '255, 255, 255');
-    }
     
-    document.querySelector('[data-settings-overlay]').open = false
+
+    //if (theme === 'night') {
+        //document.documentElement.style.setProperty('--color-dark', '255, 255, 255');
+        //document.documentElement.style.setProperty('--color-light', '10, 10, 20');
+    //} else {
+        //document.documentElement.style.setProperty('--color-dark', '10, 10, 20');
+        //document.documentElement.style.setProperty('--color-light', '255, 255, 255');
+    //}
+    
+    //document.querySelector('[data-settings-overlay]').open = false
 })
 
 document.querySelector('[data-search-form]').addEventListener('submit', (event) => {
